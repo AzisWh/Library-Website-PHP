@@ -10,6 +10,7 @@ if(isset($_POST['submit'])){
     $idbuku = $_GET['id'];
     $judul_buku = $_POST['judulbuku'];
     $deskripsi_buku = $_POST['descbuku'];
+    $isbn_buku = $_POST['isbnbuku'];
     $id_kat = $_POST['kategoribuku'];
     $buku_penulis = $_POST['penulisbuku'];
     $tahun_terbit = $_POST['tbitbuku'];
@@ -88,10 +89,15 @@ if(isset($_GET['id'])){
             class="form-control" name="descbuku" rows="3"><?php echo isset($row['deskripsi_buku']) ? $row['deskripsi_buku'] : ''; ?></textarea>
           </div>
           <div class="form-group">
+            <label for="isbnbuku">ISBN</label>
+            <input type="text" value="<?php echo isset($row['isbn_buku']) ? $row['isbn_buku'] : ''; ?>"
+             class="form-control" name="isbnbuku" id="isbnbuku" placeholder="isbnbuku">
+          </div>
+          <div class="form-group">
             <label for="Kategoribuku">Kategori Buku</label>
             <select class="form-control" id="Kategoribuku" name="kategoribuku">
             <?php
-                $sql_kategori = "SELECT * FROM Kategori_buku";
+                $sql_kategori = "SELECT * FROM kategori_buku";
                 $result_kategori = mysqli_query($koneksi, $sql_kategori);
 
                 while($kategori_row = mysqli_fetch_assoc($result_kategori)) {

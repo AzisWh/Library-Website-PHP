@@ -6,14 +6,31 @@ if(isset($_POST['submit'])){
     $email = mysqli_real_escape_string($koneksi, $_POST['email']);
     $pass = md5($_POST['password']);
 
-    $sql = "SELECT * FROM tb_admin WHERE email='$email' and password='$pass'";
+    // $sql = "SELECT * FROM tb_admin WHERE email='$email' and password='$pass'" ;
+    // $result = $koneksi->query($sql);
+    // if ($result->num_rows > 0) {
+    //    $row = $result->fetch_assoc(); 
+    //    $_SESSION['email'] = $email;
+    //    $_SESSION['admin_name'] = $row['NamaDepan'];
+    //    header('location:index.php');
+    //   } else {
+    //     $message = 'salah';
+    //   }
+    $sql = "SELECT * FROM tb_admin WHERE email='$email'";
     $result = $koneksi->query($sql);
+
     if ($result->num_rows > 0) {
-       $_SESSION['email'] = $email;
-       header('location:addBuku.php');
-      } else {
+        $row = $result->fetch_assoc(); // Fetch the data from the result set
+        if (md5($_POST['password']) == $row['password']) {
+            $_SESSION['email'] = $email;
+            $_SESSION['admin_name'] = $row['NamaDepan'];
+            header('location:index.php');
+        } else {
+            $message = 'salah';
+        }
+    } else {
         $message = 'salah';
-      }
+    }
 }
 ?>
  
@@ -64,6 +81,7 @@ if(isset($_POST['submit'])){
                         </div> -->
                         <div class="col-md-12">
                             <button type="submit" name="submit" class="btn button btn-md pull-right">Login</button>
+                           
                         </div>
                     </div>
                 </form>

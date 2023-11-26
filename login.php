@@ -3,13 +3,12 @@ include('config/db.php');
 ?>
 
 
-<?php include('inc/nav.php');  ?>
  
 <div class="container text-white">
     <div class="row">
       <div class="col-md-12 my-5">
         <div class="page_header text-center">
-            <h2>Shop - Account</h2>
+            <h2>Perpus - Ku</h2>
            
         </div>
       </div>

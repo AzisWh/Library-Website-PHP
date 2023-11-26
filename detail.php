@@ -1,12 +1,14 @@
 
-<?php include('inc/header.php');  ?>
+<?php include('inc/header.php'); 
+if(!isset($_SESSION['email']) && empty($_SESSION['email'])){
+    header('location:login.php');
+  }
+?>
 
 <?php include('inc/nav.php');  ?>
 <?php 
 include('config/db.php');
-if(!isset($_SESSION['email']) && empty($_SESSION['email'])){
-  header('location:login.php');
-}
+
 ?>
 <?php
 if(isset($_GET['id'])){
@@ -33,20 +35,19 @@ if(isset($_GET['id'])){
         <div class="col-md-6 pt-5">
         <h3><b><?php echo $row["judul_buku"]; ?></b></h3>
         <h4>Deskripsi Buku : <br> <b><?php echo $row["deskripsi_buku"]; ?></b></h2>
+        <h4>ISBN Buku : <br> <b><?php echo $row["isbn_buku"]; ?></b></h2>
         <h4>Penulis Buku : <br> <b><?php echo $row["buku_penulis"]; ?></b></h2>
 
 
 
 <div class="row">
-    <div class="col-md-4">
-        <h4>Jumlah :</h4>
-    </div>
-    <div class="col-md-4">
+  
+    <div class="col-md-12">
         <form action="peminjaman.php" method="get">
             <input type="hidden" name="id" value="<?php echo $idbuku; ?>">
-            <label for="tanggalPinjam">Tanggal Peminjaman</label>
-            <input type="date" class="form-control" name="tanggalPinjam" value="<?php echo isset($_GET['tanggalPinjam']) ? $_GET['tanggalPinjam'] : date('Y-m-d'); ?>" required>
-            <input type="number" class="form-control" name="jumlah">
+            <!-- <label for="tanggalPinjam">Tanggal Peminjaman</label> -->
+            <input type="hidden" class="form-control" name="tanggalPinjam" value="<?php echo isset($_GET['tanggalPinjam']) ? $_GET['tanggalPinjam'] : date('Y-m-d'); ?>" required>
+            <input type="hidden" class="form-control" name="jumlah">
             
     </div>
 </div>
@@ -88,12 +89,29 @@ if(isset($_GET['id'])){
         </div> -->
 
 <div class="row mt-4">
-    <div class="col-md-4">
-                    <button class="btn btn-default btn-xs pull-right" type="submit" name="submit">
-                        <a href="peminjaman.php?id=<?php echo $row['id']?>">
-                        <i class="fa fa-cart-arrow-down"></i> Peminjaman
-                        </a>
-                    </button>
+<div class="col-md-4"> 
+        <h4>status buku :</h4>
+        <?php
+        $status = $row['status'];
+        if ($status == 'Available') {
+            echo '<h1 class="text-white"><b>Bisa Dipinjam</b></h1>';
+        } else {
+            echo '<h1 class="text-dark">Sedang Dipinjam</h1>';
+        }
+        ?>
+    </div>
+    <div class="col-md-8">
+        <?php if ($status == 'Available') : ?>
+            <button class="btn btn-default btn-xs pull-right" type="submit" name="submit">
+                <a href="peminjaman.php?id=<?php echo $row['id'] ?>">
+                    <i class="fa fa-cart-arrow-down"></i> Peminjaman
+                </a>
+            </button>
+        <?php else : ?>
+            <button class="btn btn-default btn-xs pull-right" type="button" disabled>
+                <i class="fa fa-cart-arrow-down"></i> Sedang Dipinjam
+            </button>
+        <?php endif; ?>
     </div>
 </div>
 

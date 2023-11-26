@@ -25,36 +25,43 @@ include('../config/db.php');
                     <thead>
                         <tr>
                             <th>Nama User</th>
-                            <th>Email</th>
+                            <th>Prodi</th>
+                            <th>Mobile</th>
+                            <th>Nim</th>
                             <th>Action</th>
                             
                         </tr>
                     </thead>
                     <tbody>
                     <?php
-    $sql = "SELECT * FROM tb_user";
-    $result = mysqli_query($koneksi, $sql);
-
-    if (mysqli_num_rows($result) > 0) {
-        // output data of each row
-        while($row = mysqli_fetch_assoc($result)) {
+    if(isset($_GET['user_id'])){
+        $iduser = $_GET['user_id'];
+        $sql = "SELECT * FROM user_data WHERE userid ='$iduser'";
+        $result = mysqli_query($koneksi, $sql);
+    
+        if ($result) {
+            $row = mysqli_fetch_assoc($result);
+        } else {
+            // Handle error, contoh:
+            die("Error: " . mysqli_error($koneksi));
+        }
+    
+    }
 
             ?>
         
         <tr>
-            <td><?php echo $row['nama_user']?></td>
-            <td><?php echo $row["email"]; ?>"</td>   
-            <td><a href='delAcc.php?user_id=<?php echo $row["user_id"] ?>'>Hapus Akun</a>
-            |<a href='cetakkartu.php?user_id=<?php echo $row["user_id"] ?>'>cetak kartu</a>
-        </td>
+            <td><?php echo $row['namadepan']?> <?php echo $row['namabelakang']?></td>
+            <td><?php echo $row["prodi"]; ?></td>   
+            <td><?php echo $row["mobile"]; ?></td>   
+            <td><?php echo $row["NIM"]; ?></td>   
+            <td><button onclick="printPage()" class="btn btn-primary">Print Kartu</button></td>
+            
+        
         </tr>
 
         
         <?php
-        }
-      } else {
-        echo "0 results";
-      }
 
 
 ?>
@@ -66,5 +73,11 @@ include('../config/db.php');
         </div>
     </div>
 </div>
+
+<script>
+    function printPage() {
+        window.print();
+    }
+</script>
 
 <?php include('inc/footer.php') ?>

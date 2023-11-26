@@ -15,8 +15,10 @@ if(isset($_POST['submit'])){
 
    
       if (password_verify($password, $dbStoredPASSWORD)) {
+        $_SESSION['user_name'] = $row['nama_user'];
         $_SESSION['email'] = $email;
         $_SESSION['emailid'] = $row['user_id'];
+       
         header('location:index.php');
        } else {
          header('location:login.php?message=1');

@@ -31,8 +31,8 @@ if(!isset($_SESSION['email']) && empty($_SESSION['email']) ){
         <tbody>
         <tr>
             <td><?php echo $row["nama_kategori"] ?></td>
-            <td><a href='editCategory.php?id=<?php echo $row["id_kat"] ?>'>Edit</a> 
-            | <a href='delKategori.php?id=<?php echo $row["id_kat"] ?>'>Delete</a></td>
+            <td>
+            <a href='delKategori.php?id=<?php echo $row["id_kat"] ?>'>Delete</a></td>
         </tr>
 
         

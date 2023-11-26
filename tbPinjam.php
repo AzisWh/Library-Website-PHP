@@ -1,12 +1,14 @@
 
-<?php include('inc/header.php');  ?>
+<?php include('inc/header.php'); 
+if(!isset($_SESSION['email']) && empty($_SESSION['email'])){
+    header('location:login.php');
+  }
+?>
 
 <?php include('inc/nav.php'); 
 
 include('config/db.php');
-if(!isset($_SESSION['email']) && empty($_SESSION['email'])){
-  header('location:login.php');
-}
+
 
 
 $pinjam = $_SESSION['pinjam'] ?? [];
@@ -29,7 +31,8 @@ $pinjam = $_SESSION['pinjam'] ?? [];
 
            <th>Tanggal Pinjam</th>
            
-           <th>Tahun Terbit</th>       
+           <th>Tahun Terbit</th>     
+           <th>status</th>  
            <th>Action</th>
            
        </tr>
@@ -51,7 +54,8 @@ $pinjam = $_SESSION['pinjam'] ?? [];
            <td><?php echo $value['jumlah']?></td>
            <td><?php echo $value['tanggalPinjam']?></td>
            <td><?php echo $row['tahun_terbit']?></td>
-           <td><a href='hapusPinjam.php?id=<?php echo $key;?>'>Hapus</a></td>
+           <td><?php echo $row['status'] ?></td>
+           <td><a href='checkout.php?id=<?php echo $key;?>'>Lakukan Pengembalian</a></td>
         </tr>
     
                 <?php
@@ -81,10 +85,7 @@ $pinjam = $_SESSION['pinjam'] ?? [];
          </tr> -->
    </table>
 
-   <div class="text-right">
-    <!-- <button class="btn mr-3">Update Cart</button> -->
-    <a href="checkout.php" class="btn btn-primary btn-block text-center">CHECKOUT</a>
-    </div>
+   
    
 
 

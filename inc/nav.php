@@ -1,7 +1,9 @@
- <?php
+<?php
  
-session_start();
+// session_start();
 include('config/db.php');
+
+
 
 ?> 
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
@@ -13,15 +15,53 @@ include('config/db.php');
     <li class="nav-item mt-2">
       <a class="nav-link" href="index.php">OPAC</a>
     </li>
-    <li class="nav-item mt-2">
-      <a class="nav-link" href="#">Sirkulasi</a>
+    <li class="nav-item dropdown mt-2">
+      <a class="nav-link dropdown-toggle" id="navbardrop" data-toggle="dropdown" href="#">
+		Kategori Buku
+	</a>
+		<div class="dropdown-menu">
+		
+            <?php
+			
+                $sql2 = "SELECT * FROM kategori_buku";
+				$result2 = mysqli_query($koneksi, $sql2);
+
+ 					while($row2 = mysqli_fetch_assoc($result2)){
+						?>
+							<a class="dropdown-item" 
+							href="index.php?id=<?php echo $row2['id_kat']?>">
+							<?php echo $row2['nama_kategori']?>
+						</a>
+						<?php
+					}
+            ?>
+     
+ 			
+ 			<!-- <a class="dropdown-item" href="#">bebas</a>
+ 			<a class="dropdown-item" href="#">komedi</a> -->
+		</div>
     </li>
-    <li class="nav-item mt-2">
-      <a class="nav-link" href="logout.php">LogOut</a>
-    </li>
-    <li class="nav-item mt-2">
-      <a class="nav-link" href="#">Contact</a>
-    </li>
+  
+    <li class="nav-item dropdown mt-2">
+        <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+            My Account
+        </a>
+        <div class="dropdown-menu">
+		<?php
+    $sql = "SELECT * FROM tb_user";
+    $result = mysqli_query($koneksi, $sql);
+	if (mysqli_num_rows($result) > 0) {
+	$row = mysqli_fetch_assoc($result)
+	?>
+	
+	<a class="dropdown-item" href="edtpass.php?userid=<?php echo $_SESSION['emailid']; ?>">Ganti Password </a>
+          <a class="dropdown-item" href="cetakkartu.php?id=<?php echo $_SESSION['emailid']; ?>">Kartu Anggota</a> 
+          <a class="dropdown-item" href="logout.php">Logout</a> 
+		 <?php 
+	}
+		  ?>
+        </div>
+      </li>
 
     <!-- Dropdown -->
 
@@ -95,7 +135,7 @@ include('config/db.php');
 				    	</div> -->
 				    	<div class="row">
 				    		<div class="col-lg-12 col-sm-12 col-12 text-center checkout">
-							<a href="checkout.php" class="btn btn-primary btn-block text-center">checkout</a>
+							<!-- <a href="checkout.php" class="btn btn-primary btn-block text-center">pengembalian</a> -->
 								<a href="tbPinjam.php" class="btn btn-primary btn-block text-center">tabel pinjam</a>
 				    		</div>
 				    	</div>

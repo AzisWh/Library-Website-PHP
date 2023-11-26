@@ -2,6 +2,7 @@
 <?php 
 session_start();
 include('../config/db.php');
+// require_once('../vendor/autoload.php');
 if(!isset($_SESSION['email']) && empty($_SESSION['email'])){
   header('location:login.php');
 }
@@ -18,11 +19,18 @@ if(isset($_POST['submit'])){
   $buku_penulis = mysqli_real_escape_string($koneksi, $_POST['penulisbuku']);
   $buku_tahun = $_POST['tbitbuku'];
   $buku_cover = $_FILES['coverbuku']['name'];
+  $buku_isbn = $_POST['isbnbuku'];
+
+
+  // $barcode = '../brimage/' . time(). ".png";
+  // $barimage = time().".png";
+  // $color = [255,0,0];
+  // $bartext = $buku_judul;
 
   $sql = "INSERT INTO tb_buku (judul_buku, id_kat, buku_penulis,
-          tahun_terbit, buku_cover, deskripsi_buku) 
+          tahun_terbit, buku_cover, deskripsi_buku, isbn_buku) 
           VALUES ('$buku_judul','$buku_kategori','$buku_penulis','$buku_tahun'
-          ,'$buku_cover','$buku_deskripsi')";
+          ,'$buku_cover','$buku_deskripsi','$buku_isbn')";
    if (mysqli_query($koneksi, $sql)) {
     $target_dir = "../image/"; // Ganti dengan direktori tempat Anda ingin menyimpan file
     $target_file = $target_dir . basename($_FILES['coverbuku']['name']);
@@ -35,6 +43,11 @@ if(isset($_POST['submit'])){
 } else {
     echo "Error: " . $sql . "<br>" . mysqli_error($koneksi);
 }
+//barcode generator
+// $generator = new Picqer\Barcode\BarcodeGeneratorPNG();
+// file_put_contents($barcode, $generator->getBarcode($bartext, 
+// $generator::TYPE_CODE_128, 3, 50, $Color));
+
 }
 
 
@@ -65,6 +78,10 @@ if(isset($_POST['submit'])){
           <div class="form-group">
             <label for="Descbuku">Deskripsi Buku</label>
             <textarea class="form-control" name="descbuku" rows="3"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="isbnbuku">ISBN</label>
+            <input class="form-control" type="text" name="isbnbuku" ></input>
           </div>
           <div class="form-group">
             <label for="Kategoribuku">Kategori Buku</label>

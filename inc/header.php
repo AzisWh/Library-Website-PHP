@@ -14,3 +14,7 @@
 </head>
 <body class="bg-info">
 
+<?php
+session_start();
+?>
+
